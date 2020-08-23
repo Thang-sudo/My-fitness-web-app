@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 import InAppNavBar from './layout/InAppNavBar';
 import Footer from './layout/Footer';
+import connect from 'react-redux';
 
 class Dashboard extends Component{
     render(){
@@ -15,5 +16,6 @@ class Dashboard extends Component{
             )
     }
 }
+
 
 export default Dashboard;

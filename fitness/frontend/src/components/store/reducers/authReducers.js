@@ -1,51 +1,57 @@
-import {LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, REGISTER_FAIL} from '../actions/types';
-import {updatedObject} from '../utility';
+import {LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, REGISTER_FAIL, REGISTER_SUCCESS} from '../actions/types';
 import { loginSuccess } from '../actions/authActions';
 
 const initialState = {
-    token: null,
+    isAuthenticated: false,
     error: null,
     loading: false
 }
 
-const loginStart = (state, action) =>{
-    return updatedObject(state, {
-        error: null,
-        loading: true
-    })
-}
-
-const loginSucces = (state, action) =>{
-    return updatedObject(state, {
-        token: action.token,
-        error: null,
-        loading: false
-    })
-}
-
-const loginFail = (state, action) =>{
-    return updatedObject(state,{
-        error: action.error,
-        loading: false
-    })
-}
-
-const logout = (state, action) =>{
-    return updatedObject(state, {
-        token: null
-    })
-}
 
 const authReducers = (state=initialState, action) =>{
     switch(action.type){
         case LOGIN_START:
-            return loginStart(state, action)
+            return {
+                ...state,
+                isAuthenticated: false,
+                error: null,
+                loading: true
+            }
         case LOGIN_SUCCESS:
-            return loginSuccess(state, action)
+            return{
+                ...state,
+                isAuthenticated: true,
+                error: null,
+                loading: false
+            }
         case LOGIN_FAIL:
-            return loginFail(state, action)
+            return {
+                ...state,
+                isAuthenticated: false,
+                error: action.error,
+                loading:false
+            }
         case LOGOUT:
-            return logout(state, action)
+            return {
+                ...state,
+                isAuthenticated: false,
+                error: null,
+                loading: false
+            }
+        case REGISTER_SUCCESS:
+            return{
+                ...state,
+                isAuthenticated: true,
+                error: null,
+                loading: false
+            }
+        case REGISTER_FAIL:
+            return{
+                ...state,
+                isAuthenticated: false,
+                error: action.error,
+                loading: false
+            }
         default:
             return state
     }

@@ -1,5 +1,6 @@
-import {LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, REGISTER_FAIL} from './types';
+import {LOGIN_START, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, REGISTER_FAIL, REGISTER_SUCCESS} from './types';
 import axios from 'axios';
+import { type } from 'jquery';
 
 export const loginStart = () =>{
     return{
@@ -7,10 +8,9 @@ export const loginStart = () =>{
     }
 }
 
-export const loginSuccess = (token) =>{
+export const loginSuccess = () =>{
     return{
-        type: LOGIN_SUCESS,
-        token: token
+        type: LOGIN_SUCCESS,
     }
 }
 
@@ -21,6 +21,12 @@ export const loginFail = error =>{
     }
 }
 
+export const registerSuccess = () =>{
+    return{
+        type: REGISTER_SUCCESS
+    }
+}
+
 export const registerFail = error =>{
     return{
         type: REGISTER_FAIL,
@@ -28,56 +34,75 @@ export const registerFail = error =>{
     }
 }
 
-export const logout = () =>{
-    localStorage.removeItem('user');
-    return{
-        type: LOGOUT,
-    }
-}
 
 export const login = (username, password) =>{
     return dispatch => {
         dispatch(loginStart());
-        axios.post('http://127.0.0.1:8000/login/',{
-            username: username,
-            password: password
+        axios({
+            method:'POST',
+            url:"login",
+            data:{
+                'body': JSON.stringify({ username: username, password: password })
+            }
         })
         .then(res => {
-            const token = res.data.key;
-            localStorage.setItem('token', token);
-            dispatch(loginSuccess(token));
+            console.log(res)
+            if(res.data === "True"){
+                dispatch(loginSuccess())
+            }
+            else{
+                dispatch(loginFail())
+            }
         })
-        .catch(error => 
-            dispatch(loginFail(error)))
+        .catch(error =>{
+            console.log(error)
+            dispatch(loginFail(error))
+        })
     }
 }
 
 export const register = (username, password1, password2) =>{
     return dispatch => {
         dispatch(loginStart());
-        axios.post('http://127.0.0.1:8000/rest-auth/register/',{
-            username: username,
-            password1: password1,
-            password2: password2
+        axios({
+            method:'POST',
+            url:'register',
+            data:{
+                'body': JSON.stringify({username: username, password1: password1, password2: password2})
+            }
         })
         .then(res => {
-            const token = res.data.key;
-            localStorage.setItem('token', token);
-            dispatch(loginSuccess(token));
+            console.log(res)
+            if(res.data === "True"){
+                dispatch(registerSuccess())
+            }
+            else{
+                dispatch(registerFail())
+            } 
         })
         .catch(error => 
             dispatch(registerFail(error)))
     }
 }
-
-export const authCheckState = () =>{
+export const logoutSucess = () =>{
+    return{
+        type: LOGOUT
+    }
+}
+export const logout = () =>{
     return dispatch =>{
-        const token = localStorage.getItem('token')
-        if(token === undefined){
-            dispatch(logout())
-        }
-        else{
-            dispatch(loginSuccess(token))
-        }
+        axios({
+            method:'POST',
+            url:'logout',
+        })
+        .then(res =>{
+            if(res.data === "True"){
+                console.log("Log out Successful")
+                dispatch(logoutSucess())
+            }
+        })
+        .catch(error =>
+            dispatch(loginFail(error))
+        )
     }
 }

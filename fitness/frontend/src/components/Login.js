@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import loginIcon from '../assets/loginIcon.png';
 import Navbar from './layout/Navbar';
 import Footer from './layout/Footer';
-import {Link} from 'react-router-dom';
+import Dashboard from './Dashboard';
+import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {login} from './store/actions/authActions';
+
+
 class Login extends Component {
     constructor(props){
         super(props)
@@ -13,15 +16,12 @@ class Login extends Component {
         username:'',
         password:''
     }
-    onChange = (e) =>{
-        this.setState({
-            username: e.target.value,
-            password: e.target.value
-        })
+    onChange = (e) => {
+        this.setState({[e.target.name]:e.target.value})
     }
 
-    onSubmit = (e) =>{
-        e.preventDefault()
+    onSubmit = (e) => {
+        e.preventDefault();
         this.props.login(this.state.username, this.state.password)
         this.setState({
             username: '',
@@ -29,7 +29,7 @@ class Login extends Component {
         })
     }
     render() {
-        const formStyle= {
+        const formStyle = {
             width: "50%",
             height:"50%",
         }
@@ -37,6 +37,9 @@ class Login extends Component {
             borderRadius:"50%",
             width:"100px",
             height:"100px"
+        }
+        if(this.props.isAuthenticated){
+            return <Redirect to="/dashboard"/>
         }
         return (
             <div>
@@ -49,13 +52,11 @@ class Login extends Component {
                         <br/>
                         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
                         <br/>
-                        <input type="text" class="form-control" placeholder="Username" value={this.state.username} onChange = {() => this.onChange()} required autofocus></input>
+                        <input type="text" class="form-control" name="username" placeholder="Username" value={this.state.username} onChange = {this.onChange} required autofocus></input>
                         <br/>
-                        <input type="password" class="form-control" placeholder="Password" value={this.state.password} onChange = {() => this.onChange()} required></input>
+                        <input type="password" class="form-control" name="password" placeholder="Password" value={this.state.password} onChange = {this.onChange} required></input>
                         <br/>
-                        <Link to='/dashboard'>
-                            <button class="btn btn-lg btn-primary btn-block" type="submit" onSubmit = {() => this.onSubmit()}>Log in</button>
-                        </Link>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" onClick={this.onSubmit}>Log in</button>
                         <br/>
                     </div>
                 </div>
@@ -66,7 +67,12 @@ class Login extends Component {
 }
 const mapDispatchToProps = dispatch =>{
     return{
-        login:  (username, password) => dispatch(login(username, password))
+        login:(username, password) => dispatch(login(username, password))
     }
 }
-export default connect()(Login)
+const mapStateToProps = state =>{
+    return{
+        isAuthenticated: state.auth.isAuthenticated
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
