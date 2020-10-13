@@ -1,35 +1,55 @@
 import {ADD_FOOD, SEARCH_FOOD, DELETE_FOOD} from './types';
 import axios from 'axios';
-import $ from 'jquery'
-import { element } from 'prop-types';
 
-export const addFood = (food, amount) =>{
+
+let nextId = 0
+
+export const addFood = (food, amount, calories) =>{
     return{
-        type: ADD_FOOD
+        type: ADD_FOOD,
+        payload:{
+            foodName: food,
+            amount: amount,
+            caloriesCount: calories
+        }
     }
 }
 
-export const searchFood = (food, amount) =>{
+export const searchFood = (food, amount) => dispatch =>{
+    let addedFood = {
+        id: 0,
+        foodName: '',
+        amount: 0,
+        caloriesCount: 0,
+    }
     axios.get('http://localhost:8000/api/nutrition/')
     .then(res => {
-        console.log(res.data)
         let i;
         for(i of res.data){
             if(i.foodName === food){
-                console.log(food)
-                console.log(amount)
-                addFood(food, amount)
+                let calories = (i.caloriesCount / 100)*amount
+                addedFood = {
+                    id: nextId++,
+                    foodName: i.foodName,
+                    amount: amount,
+                    caloriesCount: calories
+                }
+                dispatch({
+                    type: SEARCH_FOOD,
+                    payload: addedFood
+                })
             }
         }
     })
     .catch(err => console.log(err))
-    return{
-        type: SEARCH_FOOD
-    }
+    // dispatch({
+    //     type: SEARCH_FOOD,
+    //     payload: addedFood
+    // })
 }
 
 export const deleteFood = () =>{
     return{
-        type: DELETE_FOOD
+        type: DELETE_FOOD,
     }
 }

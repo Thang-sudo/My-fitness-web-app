@@ -3,6 +3,7 @@ import $ from 'jquery';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {searchFood} from '../store/actions/foodActions';
+import { compose } from 'redux';
 
 class Nutrition extends Component {
     constructor(props){
@@ -21,13 +22,21 @@ class Nutrition extends Component {
         this.setState({foodInput:'', amountInput: ''})
     }
     render() {
-        const UserFoods = this.props.foods.map(food => {
-            <tr>
-                <td>food.foodName</td>
-                <td>food.amount</td>
-                <td>food.caloriesCount</td>
-            </tr>
-        })
+        // console.log(this.props.foods)
+        let foods = this.props.foods
+        for(let food of foods){
+            console.log(food.id)
+            console.log(food.foodName)
+            console.log(food.amount)
+            console.log(food.caloriesCount)
+        }
+        // const UserFoods = this.props.foods.map(food => {
+        //     // <tr>
+        //     //     <td>{food.foodName}</td>
+        //     //     <td>{food.amount}</td>
+        //     //     <td>{food.caloriesCount}</td>
+        //     // </tr>
+        // })
         return (
         <div style={{textAlign:"center"}}>
             <div className="my-3 bg-white rounded shadow-sm" style={{textAlign:"center"}}>
@@ -43,7 +52,7 @@ class Nutrition extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {UserFoods}
+                        {/* {UserFoods} */}
                     </tbody>
                     </table>     
             </div>
@@ -80,7 +89,6 @@ class Nutrition extends Component {
     }
 }
 const mapStateToProps = state =>{
-    console.log(state)
     return{
         foods: state.food.foods,
     }
