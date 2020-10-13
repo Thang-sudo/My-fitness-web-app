@@ -28,8 +28,9 @@ export const searchFood = (food, amount) => dispatch =>{
         for(i of res.data){
             if(i.foodName === food){
                 let calories = (i.caloriesCount / 100)*amount
+                nextId = nextId + 1
                 addedFood = {
-                    id: nextId++,
+                    id: nextId,
                     foodName: i.foodName,
                     amount: amount,
                     caloriesCount: calories

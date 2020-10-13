@@ -6,9 +6,9 @@ import {searchFood} from '../store/actions/foodActions';
 import { compose } from 'redux';
 
 class Nutrition extends Component {
-    constructor(props){
-        super(props)
-    }
+    // constructor(props){
+    //     super(props)
+    // }
     state = {
         foodInput: '',
         amountInput: '',
@@ -24,19 +24,14 @@ class Nutrition extends Component {
     render() {
         // console.log(this.props.foods)
         let foods = this.props.foods
-        for(let food of foods){
-            console.log(food.id)
-            console.log(food.foodName)
-            console.log(food.amount)
-            console.log(food.caloriesCount)
-        }
-        // const UserFoods = this.props.foods.map(food => {
-        //     // <tr>
-        //     //     <td>{food.foodName}</td>
-        //     //     <td>{food.amount}</td>
-        //     //     <td>{food.caloriesCount}</td>
-        //     // </tr>
-        // })
+        console.log(foods)
+        const UserFoods = this.props.foods.map(food => (
+            <tr>
+                <td>{food.foodName}</td>
+                <td>{food.amount}</td>
+                <td>{food.caloriesCount}</td>
+            </tr>
+        ))
         return (
         <div style={{textAlign:"center"}}>
             <div className="my-3 bg-white rounded shadow-sm" style={{textAlign:"center"}}>
@@ -52,7 +47,7 @@ class Nutrition extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {UserFoods} */}
+                        {UserFoods}
                     </tbody>
                     </table>     
             </div>
