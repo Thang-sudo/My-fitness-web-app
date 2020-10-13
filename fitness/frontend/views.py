@@ -64,3 +64,6 @@ def logout(request):
 
 def dashboard(request):
     return render(request, 'frontend/index.html')
+
+def foodsearch(request):
+    return render(request, 'frontend/index.html')

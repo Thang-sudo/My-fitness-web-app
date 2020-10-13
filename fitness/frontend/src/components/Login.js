@@ -50,11 +50,11 @@ class Login extends Component {
                         <br/>
                         <img src={loginIcon} style={picStyle}/>
                         <br/>
-                        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                        <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
                         <br/>
-                        <input type="text" class="form-control" name="username" placeholder="Username" value={this.state.username} onChange = {this.onChange} required autofocus></input>
+                        <input type="text" className="form-control" name="username" placeholder="Username" value={this.state.username} onChange = {this.onChange} required autofocus></input>
                         <br/>
-                        <input type="password" class="form-control" name="password" placeholder="Password" value={this.state.password} onChange = {this.onChange} required></input>
+                        <input type="password" className="form-control" name="password" placeholder="Password" value={this.state.password} onChange = {this.onChange} required></input>
                         <br/>
                         <button class="btn btn-lg btn-primary btn-block" type="submit" onClick={this.onSubmit}>Log in</button>
                         <br/>

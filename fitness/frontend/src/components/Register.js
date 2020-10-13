@@ -47,15 +47,15 @@ class Register extends Component {
                     <br/>
                     <img src={registerIcon} style={picStyle}/>
                     <br/>
-                    <h1 class="h3 mb-3 font-weight-normal">Create new User</h1>
+                    <h1 className="h3 mb-3 font-weight-normal">Create new User</h1>
                     <br/>
-                    <input type="text" class="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.onChange} required autofocus></input>
+                    <input type="text" className="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.onChange} required autofocus></input>
                     <br/>
-                    <input type="password" class="form-control" placeholder="Password1" name="password1" value={this.state.password1} onChange={this.onChange} required></input>
+                    <input type="password" className="form-control" placeholder="Password1" name="password1" value={this.state.password1} onChange={this.onChange} required></input>
                     <br/>
-                    <input type="password" class="form-control" placeholder="Password2" name="password2" value={this.state.password2} onChange={this.onChange} required></input>
+                    <input type="password" className="form-control" placeholder="Password2" name="password2" value={this.state.password2} onChange={this.onChange} required></input>
                     <br/>
-                        <button class="btn btn-lg btn-primary btn-block" onClick={this.onSubmit} type="submit">Sign up</button>
+                        <button className="btn btn-lg btn-primary btn-block" onClick={this.onSubmit} type="submit">Sign up</button>
                     <br/>
                 </div>
             </div>

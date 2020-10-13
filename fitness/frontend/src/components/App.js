@@ -9,6 +9,7 @@ import Home from './Home';
 import Login from './Login';
 import Footer from './layout/Footer';
 import Dashboard from './Dashboard';
+import FoodSearch from './layout/FoodSearch';
 
 class App extends Component{
     render(){
@@ -21,6 +22,7 @@ class App extends Component{
                             <Route exact path = '/login' component={Login}/>
                             <Route exact path = '/register' component={Register} />
                             <Route exact path = '/dashboard' component={Dashboard}/>
+                            <Route exact path = '/foodsearch' component={FoodSearch}/>
                         </Switch>
                     </div>
                 </Router>
